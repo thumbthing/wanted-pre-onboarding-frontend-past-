@@ -109,6 +109,8 @@ const TodoTemplate = () => {
   return (
     <>
       <TodoInsert 
+      todos={todos}
+      setTodos={setTodos}
       />
       <TodoList 
       todos={todos}

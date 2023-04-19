@@ -3,26 +3,13 @@ import { useCallback, useEffect, useState } from "react"
 import { request } from "../../request/Api";
 import { Todo } from "./TodoTemplate";
 
-interface Todos {
-  todos: Todo[],
+interface InsertTodoProps {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-
-const TodoInsert = () => {
+const TodoInsert = ({todos, setTodos}: InsertTodoProps) => {
   const [ value, setValue ] = useState('');
-  const [ todos, setTodos ] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await request.getTodos('/todos');
-        if (response.status === 200) setTodos(response.data as Todo[]);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchData();
-  }, []);
 
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
