@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request } from "../request/Api";
+import { request } from "../../request/Api";
 
 export default function Login() {
   const [ id, setId ] = useState('');
@@ -23,12 +23,18 @@ export default function Login() {
     }
   }, [id, password]);
 
+  useEffect(() => {
+    if(localStorage.getItem('access_token')) navigate("/todo");
+  })
+
   const signIn = useCallback( async () => {
     try {
       const response: AxiosResponse = await request.sign('/auth/signin', userForm);
-      const accessToken: string = response.data.access_token;
-  
-      localStorage.setItem('access_token', accessToken);
+      if(response.status === 200){
+        const accessToken: string = response.data.access_token;
+    
+        localStorage.setItem('access_token', accessToken);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -58,7 +64,7 @@ export default function Login() {
         data-testid="signin-button"
         onClick={ signIn }
         disabled = { disable }
-      />
+      >로그인</button>
     </>
   )
 }
