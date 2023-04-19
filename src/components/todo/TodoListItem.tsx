@@ -1,3 +1,9 @@
+import { Todo } from "./TodoTemplate";
+
+interface TodoListProps {
+  todos: Todo[];
+}
+
 const TodoList = () => {
   return (
     <ul>

@@ -1,9 +1,15 @@
 import { AxiosResponse } from "axios";
 import { useCallback, useState } from "react"
 import { request } from "../../request/Api";
+import { Todo } from "./TodoTemplate";
+
+interface Todos {
+  todos: Todo[],
+}
 
 const TodoInsert = () => {
   const [ value, setValue ] = useState('');
+  const [ todos, setTodos ] = useState<Todo[]>([]);
 
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,7 +20,12 @@ const TodoInsert = () => {
 
     try {
       const response: AxiosResponse = await request.createTodo('/todos', todo);
-      if(response.status === 201) setValue('');
+      if(response.status === 201) {
+        setValue('')
+        const insertedTodo = response.data as Todo;
+        const newTodos = todos.concat(insertedTodo);
+        setTodos(newTodos);
+      };
     } catch (e) {
       console.log(e);
     }
