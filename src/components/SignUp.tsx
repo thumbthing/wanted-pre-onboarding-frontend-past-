@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { request } from "../request/Api";
 import { useNavigate } from "react-router-dom";
 
@@ -6,10 +6,12 @@ export default function SignUp() {
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ disable , setDisable ] = useState(false);
-  const userForm = {
-    email: id,
-    password: password,
-  };
+  const userForm = useMemo(() => {
+    return {
+      email: id,
+      password: password,
+    };
+  }, [id, password]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,16 +22,16 @@ export default function SignUp() {
     }
   }, [id, password]);
 
-  const signUp =async () => {
+  const signUp = useCallback( async () => {
     try {
-      const req = await request.signUp('auth/signup', userForm);
+      const req = await request.sign('auth/signup', userForm);
       if(req.status === 201) {
         navigate('/signin');
       }
     } catch (e) {
       console.log(e);
     }  
-  }
+  }, [userForm, navigate])
 
   return (
     <>

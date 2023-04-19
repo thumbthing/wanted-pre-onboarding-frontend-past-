@@ -20,12 +20,13 @@ class Api {
     })
   }
 
-  signUp<ParamType, responseType>(
+  sign<ParamType, ResponseType>(
     url: string,
     param?: ParamType
   ): Promise<AxiosResponse<ResponseType>> {
     return this.instance.post(url, param);
   }
+
 }
 
 export const request = new Api();
