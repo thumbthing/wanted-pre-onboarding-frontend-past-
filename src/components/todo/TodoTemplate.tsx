@@ -17,25 +17,26 @@ const TodoTemplate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData =async () => {
+    const fetchData = async () => {
       try {
         const response = await request.getTodos('/todos');
-        if(response.status === 200) setTodos(response.data as Todo[]);
+        if (response.status === 200) setTodos(response.data as Todo[]);
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     fetchData();
-  });
+  }, []);
 
   const handleEdit = useCallback((id: number) => {
-    setTodos((prevTodos) => prevTodos.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         return { ...todo, isEditing: true };
       } else {
         return todo;
       }
-    }))
+    })
+    setTodos(newTodos);
   },[]);
 
   const handleUpdate = useCallback(async (id: number, value: string, isCompleted: boolean) => {
@@ -44,12 +45,12 @@ const TodoTemplate = () => {
         todo: value,
         isCompleted: isCompleted,
       };
-      const response = await request.updateTodos(`/todos/${id}`, updateForm);
+      const response = await request.updateTodo(`/todos/${id}`, updateForm);
       if (response.status === 200) {
         const updateTodo = response.data as Todo;
         const newTodos = todos.map((todo) => {
           if (todo.id === id) {
-            return {...todo, todo: updateTodo.todo };
+            return {...todo, todo: updateTodo.todo};
           }
           return todo; 
         })
@@ -57,10 +58,44 @@ const TodoTemplate = () => {
       }
     } catch (e) {
       console.log(e);
+    } finally {
+    
     }
-  }, [todos])
+  }, [])
 
-  const handleDelete = useCallback(()=>{return false},[]);
+  const handleCancel = useCallback( (id: number) => {
+    const newTodos = todos.map((todo) => {
+      if(todo.id === id) {
+        return {...todo, isEditing: false};
+      }
+      return todo;
+    });
+    
+    setTodos(newTodos);
+  }, [])
+
+  const handleCheck = useCallback( (id: number) => {
+    const newTodos = todos.map((todo) => {
+      if(todo.id === id) {
+        return { ...todo, isCompleted: !todo.isCompleted }
+      } else {
+      return todo;
+      }
+    })
+    setTodos(newTodos);
+  },[todos, setTodos])
+
+  const handleDelete = useCallback(async (id: number) => {
+    try {
+      const response = await request.deleteTodo(`/todos/${id}`);
+      if (response.status === 204) {
+        const newTodos = todos.filter(todo => todo.id !== id);
+        setTodos(newTodos);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },[]);
   
   return (
     <>
@@ -69,6 +104,8 @@ const TodoTemplate = () => {
       todos={todos}
       edit={handleEdit}
       remove={handleDelete}
+      cancel={handleCancel}
+      check={handleCheck}
       update={handleUpdate}
       />
     </>

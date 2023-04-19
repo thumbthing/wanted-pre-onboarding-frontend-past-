@@ -49,7 +49,7 @@ class Api {
     })
   }
 
-  updateTodos<ParamType, ResponseType> (
+  updateTodo<ParamType, ResponseType> (
     url: string,
     param?: ParamType
   ): Promise<AxiosResponse<ResponseType>> {
@@ -58,6 +58,16 @@ class Api {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         "Content-Type": 'application/json',
       }
+    })
+  }
+
+  deleteTodo<ResponseType>(
+    url:string,
+  ): Promise<AxiosResponse<ResponseType>> {
+    return this.instance.delete(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
     })
   }
 

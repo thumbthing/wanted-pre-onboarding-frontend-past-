@@ -5,15 +5,14 @@ interface TodoListProps {
   todos: Todo[];
   edit: (id: number) => void;
   remove: (id: number) => Promise<void>;
+  cancel: (id: number) => void;
+  check: (id: number) => void;
   update: (id: number, todo: string, isCompleted: boolean) => Promise<void>;
 }
 
-const TodoList = ({todos, edit, remove, update}:  TodoListProps) => {
+const TodoList = ({todos, edit, remove, cancel, check, update}:  TodoListProps) => {
   const [ value, setValue ] = useState('');
-  const [ isCompleted, setIsCompleted ] = useState(false);
-  const [ isEditing, setIsEditing ] = useState(false);
   
-
   return (
     <ul>
       {todos.map((todo) => (
@@ -21,16 +20,16 @@ const TodoList = ({todos, edit, remove, update}:  TodoListProps) => {
           {todo.isEditing === true ? (
             <>
               <label>
-                <input type="checkbox" checked={todo.isCompleted} onChange={(e) => setIsCompleted(!todo.isCompleted)}/>
+                <input type="checkbox" checked={todo.isCompleted} onChange={(e) => { check(todo.id) }}/>
                 <input type="text" placeholder={todo.todo} onChange={(e) => setValue(e.target.value)} value={value} />
               </label>
               <button data-testid="modify-button" onClick={() => update(todo.id, value, todo.isCompleted)}>제출</button> 
-              <button data-testid="delete-button" onClick={() => setIsEditing(!todo.isEditing)}>취소</button>
+              <button data-testid="delete-button" onClick={() => cancel(todo.id)}>취소</button>
             </>
           ) : (
             <>
               <label>
-              <input type="checkbox" checked={todo.isCompleted} onChange={(e) => setIsCompleted(!todo.isCompleted)}/>
+              <input type="checkbox" checked={todo.isCompleted} onChange={(e) => check(todo.id)}/>
                 <span>{todo.todo}</span>
               </label>
               <button data-testid="modify-button" onClick={() => edit(todo.id)}>수정</button> 
