@@ -27,3 +27,5 @@ class Api {
     return this.instance.post(url, param);
   }
 }
+
+export const request = new Api();
