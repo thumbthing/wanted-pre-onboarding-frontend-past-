@@ -23,19 +23,21 @@ const TodoInsert = () => {
       if(response.status === 201) {
         setValue('')
         const insertedTodo = response.data as Todo;
-        const newTodos = todos.concat(insertedTodo);
+        const newTodos = [...todos, insertedTodo];
+        console.log(newTodos);
+        
         setTodos(newTodos);
       };
     } catch (e) {
       console.log(e);
     }
-  }, [value, setValue]);
+  }, [value, setValue, todos]);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if(e.key === 'Enter') {
-      return onSubmit;
-    }
-  }
+  // const handleKeyDown = (e: KeyboardEvent) => {
+  //   if(e.key === 'Enter') {
+  //     onSubmit;
+  //   }
+  // }
 
 
   return (
@@ -48,7 +50,7 @@ const TodoInsert = () => {
       <button
       data-testid='new-todo-add-button'
       type="submit"
-      onKeyDown={ (e) => handleKeyDown }
+      // onKeyDown={ () => handleKeyDown }
       >추가</button>
     </form>
   )

@@ -37,7 +37,7 @@ const TodoTemplate = () => {
       }
     })
     setTodos(newTodos);
-  },[]);
+  },[todos]);
 
   const handleUpdate = useCallback(async (id: number, value: string, isCompleted: boolean) => {
     try {
@@ -95,7 +95,7 @@ const TodoTemplate = () => {
     } catch (e) {
       console.log(e);
     }
-  },[]);
+  },[todos]);
   
   return (
     <>
