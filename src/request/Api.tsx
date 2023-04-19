@@ -49,6 +49,18 @@ class Api {
     })
   }
 
+  updateTodos<ParamType, ResponseType> (
+    url: string,
+    param?: ParamType
+  ): Promise<AxiosResponse<ResponseType>> {
+    return this.instance.put(url, param, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        "Content-Type": 'application/json',
+      }
+    })
+  }
+
 }
 
 export const request = new Api();
