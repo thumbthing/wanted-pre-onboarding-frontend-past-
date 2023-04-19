@@ -39,6 +39,16 @@ class Api {
     });
   }
 
+  getTodos<ResponseType>(
+    url: string,
+  ): Promise<AxiosResponse<ResponseType>> {
+    return this.instance.get(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    })
+  }
+
 }
 
 export const request = new Api();
