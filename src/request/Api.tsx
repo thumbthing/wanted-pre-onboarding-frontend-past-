@@ -27,6 +27,18 @@ class Api {
     return this.instance.post(url, param);
   }
 
+  createTodo<ParamType, ResponseType>(
+    url: string,
+    param?: ParamType
+  ): Promise<AxiosResponse<ResponseType>> {
+    return this.instance.post(url, param, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        "Content-Type": 'application/json',
+      },
+    });
+  }
+
 }
 
 export const request = new Api();
