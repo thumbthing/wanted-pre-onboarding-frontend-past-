@@ -29,7 +29,7 @@ const TodoInsert = ({todos, setTodos}: InsertTodoProps) => {
     } catch (e) {
       console.log(e);
     }
-  }, [todos, value]);
+  }, [todos, setTodos, value]);
 
   return (
     <form onSubmit={onSubmit}>
