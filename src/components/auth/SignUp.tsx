@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { request } from "../request/Api";
 import { useNavigate } from "react-router-dom";
+import { request } from "../../request/Api";
 
 export default function SignUp() {
   const [ id, setId ] = useState('');

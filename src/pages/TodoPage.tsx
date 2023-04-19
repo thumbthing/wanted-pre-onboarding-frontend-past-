@@ -1,5 +1,7 @@
+import TodoTemplate from "../components/todo/TodoTemplate";
+
 export default function TodoPage() {
   return (
-    <div>Todo 페이지</div>
+    <TodoTemplate />
   )
 }
