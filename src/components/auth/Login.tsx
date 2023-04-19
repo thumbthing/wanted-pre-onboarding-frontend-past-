@@ -2,6 +2,8 @@ import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { request } from "../../request/Api";
+import styled from "styled-components";
+
 
 export default function Login() {
   const [ id, setId ] = useState('');
@@ -44,43 +46,101 @@ export default function Login() {
   )
 
   return (
-    <>
-      <h1>로그인</h1>
-      <h2>아이디</h2>
-        <input
+    <LoginContainer>
+      <LoginBox>
+      <LoginTitle>로그인</LoginTitle>
+      <StyledH2>아이디</StyledH2>
+        <LoginInput
           data-testid = "email-input"
           type="email"
           value={ id }
           onChange={ (e) => setId(e.target.value) }
         />
-      <h2>비밀번호</h2>
-        <StyledInput
+      <StyledH2>비밀번호</StyledH2>
+        <LoginInput
           data-testid = "password-input"
           type="password"
           value={ password }
           onChange={ (e) => setPassword(e.target.value)}
         />
-      <button
+      <LoginButton
         data-testid="signin-button"
         onClick={ signIn }
         disabled = { disable }
-      >로그인</button>
-    </>
+      >로그인</LoginButton>
+      </LoginBox>
+    </LoginContainer>
   )
 }
 
-const StyledInput = styled.input`
-  font-size: 1rem;
-  border: none;
-  border-bottom: 1px solid ${palette.gray[5]};
-  padding-bottom: 0.5rem;
-  outline: none;
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+`;
+
+const LoginBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+`;
+
+const LoginTitle = styled.h1`
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
+`;
+
+const LoginInput = styled.input`
   width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease-in-out;
+
   &:focus {
-    color: $oc-teal-7;
-    border-bottom: 1px solid ${palette.gray[7]};
+    outline: none;
+    border-bottom: 2px solid #0057ff;
   }
-  & + & {
-    margin-top: 1rem;
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0057ff;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0041cb;
   }
+
+  &:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+`;
+
+const StyledH2 = styled.h2`
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
 `;

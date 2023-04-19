@@ -3,6 +3,7 @@ import TodoInsert from "./TodoInsert"
 import TodoList from "./TodoListItem"
 import { request } from "../../request/Api";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 export interface Todo {
   id: number,
@@ -107,7 +108,7 @@ const TodoTemplate = () => {
   },[todos]);
   
   return (
-    <>
+    <StyledTemplate>
       <TodoInsert 
       todos={todos}
       setTodos={setTodos}
@@ -120,8 +121,18 @@ const TodoTemplate = () => {
       check={handleCheck}
       update={handleUpdate}
       />
-    </>
+    </StyledTemplate>
   )
 }
 
 export default TodoTemplate;
+
+
+const StyledTemplate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fafafa;
+`;
