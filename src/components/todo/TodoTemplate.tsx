@@ -17,6 +17,12 @@ const TodoTemplate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(!localStorage.getItem('access_token')) {
+      navigate('/signin');
+    }
+  }, )
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await request.getTodos('/todos');
@@ -35,7 +41,7 @@ const TodoTemplate = () => {
       } else {
         return todo;
       }
-    })
+    })    
     setTodos(newTodos);
   },[todos]);
 
@@ -50,18 +56,19 @@ const TodoTemplate = () => {
         const updateTodo = response.data as Todo;
         const newTodos = todos.map((todo) => {
           if (todo.id === id) {
-            return {...todo, todo: updateTodo.todo};
+            return {...todo, todo: updateTodo.todo, isCompleted: updateTodo.isCompleted,isEditing: false};
           }
           return todo; 
         })
         setTodos(newTodos);
+
       }
     } catch (e) {
       console.log(e);
     } finally {
     
     }
-  }, [])
+  }, [todos])
 
   const handleCancel = useCallback( (id: number) => {
     const newTodos = todos.map((todo) => {
@@ -72,7 +79,7 @@ const TodoTemplate = () => {
     });
     
     setTodos(newTodos);
-  }, [])
+  }, [todos])
 
   const handleCheck = useCallback( (id: number) => {
     const newTodos = todos.map((todo) => {
@@ -82,6 +89,8 @@ const TodoTemplate = () => {
       return todo;
       }
     })
+    console.log(todos)
+
     setTodos(newTodos);
   },[todos, setTodos])
 
@@ -99,7 +108,8 @@ const TodoTemplate = () => {
   
   return (
     <>
-      <TodoInsert />
+      <TodoInsert 
+      />
       <TodoList 
       todos={todos}
       edit={handleEdit}
